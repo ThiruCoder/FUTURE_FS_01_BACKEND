@@ -63,6 +63,11 @@ app.get('/check-cookie', (req, res) => {
     res.status(200).json({ token: (`Token from cookie: ${userToken}`) });
 });
 
+app.use('/', (req, res) => {
+    res.send('Backend Server is running')
+})
+
+
 app.use('/auth', userRouter);
 app.use('/project', projectRouter);
 app.use('/admin', authRouter);
@@ -78,10 +83,6 @@ app.use((req, res, next) => {
 
 
 app.use(GlobalError)
-
-app.use('/', (req, res) => {
-    res.send('Backend Server is running')
-})
 
 app.listen(PORT, () => {
     console.log(`The port is running on http://localhost:${PORT}`)
