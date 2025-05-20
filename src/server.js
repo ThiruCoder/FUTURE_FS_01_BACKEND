@@ -58,29 +58,30 @@ app.use((err, req, res, next) => {
 });
 DatabaseAuthConnection();
 
-app.get('/check-cookie', (req, res) => {
-    const userToken = req.cookies.token;
-    res.status(200).json({ token: (`Token from cookie: ${userToken}`) });
-});
-
-app.use('/', (req, res) => {
-    res.send('Backend Server is running')
-})
-
-
 app.use('/auth', userRouter);
 app.use('/project', projectRouter);
 app.use('/admin', authRouter);
 app.use('/resume', resumeRouter);
 app.use('/send', mailRouter);
 
-// Handle 404 manually
+
+// Cookie test
+app.get('/check-cookie', (req, res) => {
+    const userToken = req.cookies.token;
+    res.status(200).json({ token: (`Token from cookie: ${userToken}`) });
+});
+
+// Root route
+app.get('/', (req, res) => {
+    res.send('Backend Server is running');
+});
+
+// 404 handler
 app.use((req, res, next) => {
     const err = new Error('Route not found');
     err.statusCode = 404;
     next(err);
 });
-
 
 app.use(GlobalError)
 
